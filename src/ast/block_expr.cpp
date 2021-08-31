@@ -18,4 +18,8 @@ size_t BlockExpr::end() const {
   return closing;
 }
 
+llvm::Value* BlockExpr::codegen(CodegenVisitor* v) const {
+  return v->codegenBlockExpr(*this);
+}
+
 }// namespace crane

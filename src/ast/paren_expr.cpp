@@ -18,4 +18,8 @@ size_t ParenExpr::end() const {
   return rparenPos;
 }
 
+llvm::Value* ParenExpr::codegen(CodegenVisitor* v) const {
+  return v->codegenParenExpr(*this);
+}
+
 }// namespace crane

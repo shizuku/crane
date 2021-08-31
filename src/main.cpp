@@ -5,6 +5,9 @@
 ***********************/
 #include <iostream>
 
+#include <llvm/Support/FileSystem.h>
+
+#include "crane/code_generator.hpp"
 #include "crane/file.hpp"
 #include "crane/parser.hpp"
 #include "crane/util.hpp"
@@ -16,7 +19,12 @@ int testScan() {
   auto fileName = getFileName(filePath);
   auto file = std::make_shared<File>(fileName, readFile(filePath));
 
-  Scanner s{file};
+  std::vector<Error> errors{};
+  ErrorHandler error = [&](size_t pos, std::string msg) {
+    errors.emplace_back(Error{pos, std::move(msg)});
+  };
+
+  Scanner s{file, error};
   for (;;) {
     auto tok = s.scan();
     std::cout << tok << std::endl;
@@ -30,8 +38,23 @@ int testParse() {
   auto fileName = getFileName(filePath);
   auto file = std::make_shared<File>(fileName, readFile(filePath));
 
-  Parser p{file};
+  std::vector<Error> errors{};
+  ErrorHandler error = [&](size_t pos, std::string msg) {
+    errors.emplace_back(Error{pos, std::move(msg)});
+  };
+
+  Parser p{file, error};
   auto ast = p.parseFile();
+
+  CodeGenerator g{fileName, error};
+  g.codegenScriptFile(*ast);
+  if (!errors.empty()) {
+    return 1;
+  }
+  std::error_code ec;
+  llvm::raw_fd_ostream os(filePath + ".ll", ec, llvm::sys::fs::F_None);
+  g.module->print(os, nullptr);
+  os.flush();
   return 0;
 }
 

@@ -18,4 +18,8 @@ size_t BasicLit::end() const {
   return pos + lit.size();
 }
 
+llvm::Value* BasicLit::codegen(CodegenVisitor* v) const {
+  return v->codegenBasicLit(*this);
+}
+
 }// namespace crane

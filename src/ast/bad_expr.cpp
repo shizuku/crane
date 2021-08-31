@@ -17,4 +17,12 @@ size_t BadExpr::end() const {
   return to;
 }
 
+llvm::Value* BadExpr::codegen(CodegenVisitor* v) const {
+  return v->codegenBadExpr(*this);
+}
+
+llvm::Type* BadExpr::typegen(CodegenVisitor* v) const {
+  return nullptr;
+}
+
 }// namespace crane

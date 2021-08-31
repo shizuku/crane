@@ -24,4 +24,8 @@ size_t VarDeclExpr::end() const {
   return name->end();
 }
 
+llvm::Value* VarDeclExpr::codegen(CodegenVisitor* v) const {
+  return v->codegenVarDeclExpr(*this);
+}
+
 }// namespace crane

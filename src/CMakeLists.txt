@@ -28,7 +28,9 @@ set(
         ast/decl/var_decl_expr.cpp
         ast/decl/val_decl_expr.cpp
         ast/decl/expr_list.cpp
-        code_generator.cpp)
+        code_generator.cpp
+        ast/script.cpp
+)
 
 find_package(LLVM REQUIRED CONFIG)
 

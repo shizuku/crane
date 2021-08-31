@@ -18,4 +18,8 @@ size_t CallExpr::end() const {
   return rparenPos;
 }
 
+llvm::Value* CallExpr::codegen(CodegenVisitor* v) const {
+  return v->codegenCallExpr(*this);
+}
+
 }// namespace crane

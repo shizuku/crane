@@ -18,4 +18,8 @@ size_t BinaryExpr::end() const {
   return y->end();
 }
 
+llvm::Value* BinaryExpr::codegen(CodegenVisitor* v) const {
+  return v->codegenBinaryExpr(*this);
+}
+
 }// namespace crane

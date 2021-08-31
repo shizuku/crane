@@ -18,4 +18,8 @@ size_t UnaryExpr::end() const {
   return x->end();
 }
 
+llvm::Value* UnaryExpr::codegen(CodegenVisitor* v) const {
+  return v->codegenUnaryExpr(*this);
+}
+
 }// namespace crane

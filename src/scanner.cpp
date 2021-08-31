@@ -5,10 +5,12 @@
  ***********************/
 #include "crane/scanner.hpp"
 
+#include <utility>
+
 namespace crane {
 
-Scanner::Scanner(const std::shared_ptr<File>& f)
-    : file{f}, src{f->content}, error{f->errorHandler},
+Scanner::Scanner(const std::shared_ptr<File>& f, ErrorHandler error)
+    : file{f}, src{f->content}, error{std::move(error)},
       ch{' '}, offset{0}, readOffset{0}, lineOffset{0}, insertSemi{false} {
   next();
 }

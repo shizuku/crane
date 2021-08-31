@@ -17,4 +17,8 @@ size_t Ident::end() const {
   return pos + name.size();
 }
 
+llvm::Value* Ident::codegen(CodegenVisitor* v) const {
+  return v->codegenIdent(*this);
+}
+
 }// namespace crane

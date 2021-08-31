@@ -17,7 +17,7 @@ class Scanner {
 public:
   Scanner() = delete;
 
-  explicit Scanner(const std::shared_ptr<File>& f);
+  explicit Scanner(const std::shared_ptr<File>& f, ErrorHandler error);
 
 public:
   Token scan();

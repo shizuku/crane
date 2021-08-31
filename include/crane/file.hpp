@@ -29,12 +29,6 @@ public:
   void printError(std::ostream& o, const Error& e) const;
 
 public:
-  std::vector<Error> errors{};
-  ErrorHandler errorHandler = [&](size_t pos, std::string msg) {
-    errors.emplace_back(Error{pos, std::move(msg)});
-  };
-
-public:
   std::vector<size_t> lines{};
   std::function<void(size_t)> addLine = [&](size_t pos) { lines.push_back(pos); };
 

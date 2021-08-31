@@ -16,6 +16,7 @@
 #include "crane/ast/ident.hpp"
 #include "crane/ast/paren_expr.hpp"
 #include "crane/ast/return_expr.hpp"
+#include "crane/ast/script.hpp"
 #include "crane/ast/unary_expr.hpp"
 #include "crane/error.hpp"
 #include "crane/file.hpp"
@@ -28,12 +29,12 @@ class Parser {
 public:
   Parser() = delete;
 
-  explicit Parser(const std::shared_ptr<File>& f);
+  Parser(const std::shared_ptr<File>& f, const ErrorHandler& error);
 
 public:
-  std::shared_ptr<ExprGroup> parseFile();
+  std::shared_ptr<ScriptFile> parseFile();
 
-  std::shared_ptr<ExprGroup> parseExprGroup(TokenKind end);
+  std::shared_ptr<ExprGroup> parseExprGroup(TokenKind closing);
 
   std::shared_ptr<BlockExpr> parseBlockExpr();
 

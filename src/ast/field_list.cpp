@@ -18,6 +18,10 @@ size_t Field::end() const {
   return type->end();
 }
 
+llvm::Value* Field::codegen(CodegenVisitor* v) const {
+  return nullptr;
+}
+
 FieldList::FieldList(size_t opening, std::vector<std::shared_ptr<Field>> list, size_t closing)
     : opening(opening), list(std::move(list)), closing(closing) {}
 
@@ -27,6 +31,10 @@ size_t FieldList::beg() const {
 
 size_t FieldList::end() const {
   return closing;
+}
+
+llvm::Value* FieldList::codegen(CodegenVisitor* v) const {
+  return v->codegenFieldList(*this);
 }
 
 }// namespace crane

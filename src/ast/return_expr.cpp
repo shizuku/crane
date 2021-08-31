@@ -18,4 +18,8 @@ size_t ReturnExpr::end() const {
   return result->end();
 }
 
+llvm::Value* ReturnExpr::codegen(CodegenVisitor* v) const {
+  return v->codegenReturnExpr(*this);
+}
+
 }// namespace crane

@@ -15,11 +15,16 @@ size_t ExprGroup::beg() const {
   }
   return 0;
 }
+
 size_t ExprGroup::end() const {
   if (!list.empty()) {
     return list[list.size() - 1]->end();
   }
   return 0;
+}
+
+llvm::Value* ExprGroup::codegen(CodegenVisitor* v) const {
+  return v->codegenExprGroup(*this);
 }
 
 }// namespace crane

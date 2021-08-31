@@ -7,17 +7,19 @@
 
 namespace crane {
 
-Parser::Parser(const std::shared_ptr<File>& f) : s{f}, error{f->errorHandler} {
+Parser::Parser(const std::shared_ptr<File>& f, const ErrorHandler& error)
+    : s{f, error}, error{error} {
   next();
 }
 
-std::shared_ptr<ExprGroup> Parser::parseFile() {
-  return parseExprGroup(tok_eof);
+std::shared_ptr<ScriptFile> Parser::parseFile() {
+  auto g = parseExprGroup(tok_eof);
+  return std::make_shared<ScriptFile>(g);
 }
 
-std::shared_ptr<ExprGroup> Parser::parseExprGroup(TokenKind end) {
+std::shared_ptr<ExprGroup> Parser::parseExprGroup(TokenKind closing) {
   std::vector<std::shared_ptr<Expr>> list;
-  while (tok.kind != end) {
+  while (tok.kind != closing) {
     list.emplace_back(parseExpr());
     expect(tok_semicolon);
   }
